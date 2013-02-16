@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Review id="ReviewID-2013-1-10">
+  <ReviewIssue id="HBRSJ2RK">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:05:01:376 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:06:54:261 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>yuanzhiwu</AssignedTo>
+    <File line="21">src/com/baidu/navi/view/LaneInfoView.java</File>
+    <Type>item.type.label.suggestion</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>去掉没有用到的变量</Summary>
+    <Description>	private static final int LANE_COUNT=2;//多少行车道信息,一行或者两行只要改变这个值就可以了</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRSUSGQ">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:14:07:898 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:06:57:558 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>yuanzhiwu</AssignedTo>
+    <File line="99">src/com/baidu/navi/view/LaneInfoView.java</File>
+    <Type>item.type.label.suggestion</Type>
+    <Severity>item.severity.label.normal</Severity>
+    <Summary>代码格式化</Summary>
+    <Description>if(laneViewInRaster!=null){
+			if(isRaster&amp;&amp;mLaneInfo!=null)laneViewInRaster.setVisibility(View.VISIBLE);
+			else laneViewInRaster.setVisibility(View.INVISIBLE);
+		}</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRT14JT">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:19:03:497 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:07:00:675 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>yuanzhiwu</AssignedTo>
+    <File line="122">src/com/baidu/navi/view/LaneInfoView.java</File>
+    <Type>item.type.label.optimization</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>去掉null判断</Summary>
+    <Description>if(laneViewInRaster!=null){
+					laneViewInRaster.updateData(mLaneInfo);
+				}</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRTDR51">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:28:52:645 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:07:13:268 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>xuyuantong</AssignedTo>
+    <File line="47">src/com/baidu/navi/ui/NavRasterMapView.java</File>
+    <Type>item.type.label.suggestion</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>去掉没有用到变量</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRTNW4S">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:36:45:676 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:07:19:381 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>xuyuantong</AssignedTo>
+    <File line="117">src/com/baidu/navi/ui/NavRasterMapView.java</File>
+    <Type>item.type.label.optimization</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>优化Bitmap，相同的name不用再次获取Bitmap</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRTT3BX">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:40:48:285 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:07:32:154 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>xuyuantong</AssignedTo>
+    <File line="180">src/com/baidu/navi/ui/NavRasterMapView.java</File>
+    <Type>item.type.label.optimization</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>else增加放大图类型判断</Summary>
+    <Description></Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+  <ReviewIssue id="HBRTTUPN">
+    <ReviewIssueMeta>
+      <CreationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 19:41:23:771 CST</CreationDate>
+      <LastModificationDate format="yyyy-MM-dd :: HH:mm:ss:SSS z">2013-01-10 :: 20:07:44:491 CST</LastModificationDate>
+    </ReviewIssueMeta>
+    <ReviewerId>zhanghanguo</ReviewerId>
+    <AssignedTo>xuyuantong</AssignedTo>
+    <File line="185">src/com/baidu/navi/ui/NavRasterMapView.java</File>
+    <Type>item.type.label.suggestion</Type>
+    <Severity>item.label.unset</Severity>
+    <Summary>buffre放大updateProgress</Summary>
+    <Description>更新图片与更新进度分开</Description>
+    <Annotation></Annotation>
+    <Revision></Revision>
+    <Resolution>item.resolution.label.validNeedsfixing</Resolution>
+    <Status>item.status.label.open</Status>
+  </ReviewIssue>
+</Review>
