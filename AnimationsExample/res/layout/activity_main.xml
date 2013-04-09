@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="center"
+    tools:context=".MainActivity" >
+
+    <Button
+        android:id="@+id/start_animation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/animator_set" />
+    <ImageView 
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/add_to_favorite"/>
+    <ImageView 
+        android:id="@+id/image1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/promotion"/>
+
+</LinearLayout>

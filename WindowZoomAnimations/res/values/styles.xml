@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="android:Theme.Holo">
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+    </style>
+
+    <style name="AppTheme.ActionBarStyle" parent="android:style/Widget.Holo.ActionBar">
+        <item name="android:background">@null</item>
+        <item name="android:titleTextStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="AppTheme.DialogWhenLarge" parent="@android:style/Theme.Holo.DialogWhenLarge">
+        <item name="android:actionBarStyle">@style/AppTheme.ActionBarStyle</item>
+        <item name="android:windowTitleStyle">@style/AppTheme.ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="AppTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+</resources>

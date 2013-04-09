@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="grid_margin">0dp</dimen>
+    <dimen name="min_tile_height">175dp</dimen>
+    <dimen name="tile_padding">1dp</dimen>
+
+    <integer name="num_columns">2</integer>
+
+</resources>
