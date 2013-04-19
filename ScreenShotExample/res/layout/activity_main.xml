@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" 
+    android:id="@+id/root_view"
+    android:background="@android:color/holo_green_dark">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1" 
+        android:src="@drawable/ic_launcher"/>
+    
+    <TextClock 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button 
+        android:id="@+id/shot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="shot"/>
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DashClockExtensionExample</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="extension_title">DashClock Extension Example</string>
+    <string name="extension_description">DashClock Extension Example for StartupNews</string>
+    <string name="pref_name_title">Your name</string>
+    <string name="pref_name_default">John Smith</string>
+    <string name="title_settings">Example Extension Settings</string>
+
+</resources>
