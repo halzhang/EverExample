@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +21,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
 
 /**
  * RevolveGesture
@@ -69,6 +72,10 @@ public class RevolveGestureView extends View {
 
     private int mCurrentProgress;
 
+    private ArrayList<PointF> mPointFs;
+
+    private static final int STEP = 10;
+
     public RevolveGestureView(Context context, AttributeSet attrs) {
         super(context, attrs);
         Drawable bgDrawable = getBackground();
@@ -91,6 +98,7 @@ public class RevolveGestureView extends View {
 
         mMaxProgress = (int) (mMaxDegree - mMinDegree);
         mCurrentProgress = (int) Math.abs(mMinDegree - mDetaDegree);
+
     }
 
     public void setRevolveDrawableResource(int id) {
@@ -108,6 +116,14 @@ public class RevolveGestureView extends View {
         height = mBitmap.getHeight();
         mMaxWidth = (int) Math.sqrt(width * width + height * height);
         mCenterX = mCenterY = mMaxWidth * 0.5f;
+
+        // 初始化点
+        int pointCount = mMaxProgress / STEP + 1;
+        mPointFs = new ArrayList<PointF>(pointCount);
+        float radius = (width * 0.5f) + 5.0f;
+        for (int i = (int) mMinDegree; i <= mMaxDegree; i = i + STEP) {
+            mPointFs.add(getPointF(mCenterX, mCenterY, i, radius));
+        }
     }
 
     @Override
@@ -123,7 +139,7 @@ public class RevolveGestureView extends View {
         mOvalRectF.bottom = mCenterY + r;
         Log.i(LOG_TAG, "Oval RectF: " + mOvalRectF.toString());
     }
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         Log.i(LOG_TAG, "当前角度: " + mDetaDegree);
@@ -137,8 +153,22 @@ public class RevolveGestureView extends View {
         // 将位置送到view的中心
         matrix.postTranslate((float) (mMaxWidth - width) / 2, (float) (mMaxWidth - height) / 2);
         canvas.drawBitmap(mBitmap, matrix, null);
-        canvas.drawArc(mOvalRectF, mMinDegree, mMaxProgress, false, mMainPaint);
-        canvas.drawArc(mOvalRectF, mMinDegree, mCurrentProgress, false, mFirstPaint);
+        // canvas.drawArc(mOvalRectF, mMinDegree, mMaxProgress, false,
+        // mMainPaint);
+        // canvas.drawArc(mOvalRectF, mMinDegree, mCurrentProgress, false,
+        // mFirstPaint);
+        if (mPointFs != null && mPointFs.size() > 0) {
+            for (PointF p : mPointFs) {
+                // Log.i(LOG_TAG, "Point: " + p.toString());
+                canvas.drawCircle(p.x, p.y, 3, mMainPaint);
+            }
+        }
+        float radius = (width * 0.5f) + 5.0f;
+        for (int i = (int) mMinDegree; i <= mDetaDegree; i = i + STEP) {
+            PointF pointF = getPointF(mCenterX, mCenterY, i, radius);
+            canvas.drawCircle(pointF.x, pointF.y, 2, mFirstPaint);
+        }
+
         super.onDraw(canvas);
     }
 
@@ -181,6 +211,47 @@ public class RevolveGestureView extends View {
             }
         }
         return super.onTouchEvent(event);
+    }
+
+    /**
+     * 根据原点，角度，和半径，计算坐标
+     * 
+     * @param originalX 原点x
+     * @param originalY 原点y
+     * @param degree 角度
+     * @param radius 半径
+     * @return {@link PointF}
+     */
+    private PointF getPointF(float originalX, float originalY, float degree, float radius) {
+        float x = 0f;
+        float y = 0f;
+        // 角度转弧度
+        float radian = (float) ((degree * Math.PI) / 180);
+        x = (float) Math.sqrt((radius * radius) / (Math.tan(radian) * Math.tan(radian) + 1));
+        y = (float) (Math.tan(radian) * x);
+        float positiveDegree = degree;
+        if (degree < 0) {
+            positiveDegree = 360 + degree;
+        }
+        if (positiveDegree > 0 && positiveDegree < 90) {
+            // 第一象限
+            x = Math.abs(x);
+            y = Math.abs(y);
+        } else if (positiveDegree > 90 && positiveDegree < 180) {
+            // 第二象限
+            x = -Math.abs(x);
+            y = Math.abs(y);
+        } else if (positiveDegree > 180 && positiveDegree < 270) {
+            // 第三象限
+            x = -Math.abs(x);
+            y = -Math.abs(y);
+        } else if (positiveDegree > 270 && positiveDegree < 360) {
+            // 第四象限
+            x = Math.abs(x);
+            y = -Math.abs(y);
+        }
+        Log.i(LOG_TAG, "degree: " + degree + " x: " + x + " y: " + y);
+        return new PointF(x + originalX, y + originalY);
     }
 
     /**
@@ -256,19 +327,21 @@ public class RevolveGestureView extends View {
             mDetaDegree = mMinDegree;
         }
     }
-    
+
     static class SavedState extends BaseSavedState {
-        
+
         float detaDegree;
+
         int currentProgress;
-        
+
         /**
-         * Constructor called from {@link RevolveGestureView#onSaveInstanceState()}
+         * Constructor called from
+         * {@link RevolveGestureView#onSaveInstanceState()}
          */
         SavedState(Parcelable superState) {
             super(superState);
         }
-        
+
         /**
          * Constructor called from {@link #CREATOR}
          */
@@ -285,8 +358,7 @@ public class RevolveGestureView extends View {
             out.writeInt(currentProgress);
         }
 
-        public static final Parcelable.Creator<SavedState> CREATOR
-                = new Parcelable.Creator<SavedState>() {
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
             public SavedState createFromParcel(Parcel in) {
                 return new SavedState(in);
             }
@@ -297,16 +369,15 @@ public class RevolveGestureView extends View {
         };
     }
 
-    
     @Override
     public Parcelable onSaveInstanceState() {
         // Force our ancestor class to save its state
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
-        
+
         ss.detaDegree = mDetaDegree;
         ss.currentProgress = mCurrentProgress;
-        
+
         return ss;
     }
 
@@ -317,8 +388,8 @@ public class RevolveGestureView extends View {
         mCurrentProgress = ss.currentProgress;
         setDetaDegree(ss.detaDegree);
     }
-    
-    private void setDetaDegree(float degree){
+
+    private void setDetaDegree(float degree) {
         mDetaDegree = degree;
         postInvalidate();
     }
