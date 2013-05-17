@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DrawerLayoutDemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_back">Back</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_opened">DrawerOpen</string>
+    <string name="drawer_closed">DrawerClose</string>
+
+
+    <string-array name="left_drawer_array">
+        <item>a</item>
+        <item>b</item>
+        <item>c</item>
+    </string-array>
+
+</resources>

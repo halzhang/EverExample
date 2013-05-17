@@ -161,3 +161,11 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# IntelliJ files
+.idea
+.gradle
+*.iml
+out
+module_*.xml
+build
