@@ -9,11 +9,9 @@ package com.halzhang.android.examples.revolvegesture;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -76,12 +74,14 @@ public class RevolveGestureView extends View {
 
     private static final int STEP = 10;
 
+    private Drawable mDrawable;
+
     public RevolveGestureView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        Drawable bgDrawable = getBackground();
-        if (bgDrawable != null && bgDrawable instanceof BitmapDrawable) {
-            mBitmap = ((BitmapDrawable) bgDrawable).getBitmap();
-        }
+        // Drawable bgDrawable = getBackground();
+        // if (bgDrawable != null && bgDrawable instanceof BitmapDrawable) {
+        // mBitmap = ((BitmapDrawable) bgDrawable).getBitmap();
+        // }
         initSize();
         mDetaDegree = -mDefaultDegree;
         mMainPaint = new Paint();
@@ -102,18 +102,39 @@ public class RevolveGestureView extends View {
     }
 
     public void setRevolveDrawableResource(int id) {
-        BitmapDrawable drawable = (BitmapDrawable) getContext().getResources().getDrawable(id);
-        mBitmap = drawable.getBitmap();
+        mDrawable = getContext().getResources().getDrawable(id);
+        mDrawable.setCallback(this);
+        if (mDrawable != null && mDrawable.isStateful()) {
+            mDrawable.setState(getDrawableState());
+        }
         initSize();
+        int left = (int) ((mMaxWidth - width) * 0.5);
+        int top = (int) ((mMaxWidth - height) * 0.5);
+        mDrawable.setBounds(left, top, width + left, height + top);
         postInvalidate();
     }
 
+    @Override
+    protected void drawableStateChanged() {
+        Drawable d = mDrawable;
+        if (d != null && d.isStateful()) {
+            int[] state = getDrawableState();
+            d.setState(state);
+        }
+        super.drawableStateChanged();
+    }
+
+    @Override
+    protected boolean verifyDrawable(Drawable who) {
+        return who == mDrawable || super.verifyDrawable(who);
+    }
+
     private void initSize() {
-        if (mBitmap == null) {
+        if (mDrawable == null) {
             return;
         }
-        width = mBitmap.getWidth();
-        height = mBitmap.getHeight();
+        width = mDrawable.getIntrinsicWidth();
+        height = mDrawable.getIntrinsicHeight();
         mMaxWidth = (int) Math.sqrt(width * width + height * height);
         mCenterX = mCenterY = mMaxWidth * 0.5f;
 
@@ -130,29 +151,39 @@ public class RevolveGestureView extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(mMaxWidth, mMaxWidth);
-
         float r = (width * 0.5f);
-
         mOvalRectF.top = mCenterY - r;
         mOvalRectF.left = mCenterX - r;
         mOvalRectF.right = mCenterX + r;
         mOvalRectF.bottom = mCenterY + r;
         Log.i(LOG_TAG, "Oval RectF: " + mOvalRectF.toString());
     }
-    
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        int saveCount = canvas.save();
+        canvas.rotate(mDetaDegree, mMaxWidth * 0.5f, mMaxWidth * 0.5f);
+        mDrawable.draw(canvas);
+        canvas.restoreToCount(saveCount);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         Log.i(LOG_TAG, "当前角度: " + mDetaDegree);
-        Matrix matrix = new Matrix();
-        // 设置转轴位置
-        matrix.setTranslate((float) width / 2, (float) height / 2);
-        // 开始转,正--逆时针；负--顺时针
-        matrix.preRotate(mDetaDegree);
-        // 转轴还原
-        matrix.preTranslate(-(float) width / 2, -(float) height / 2);
-        // 将位置送到view的中心
-        matrix.postTranslate((float) (mMaxWidth - width) / 2, (float) (mMaxWidth - height) / 2);
-        canvas.drawBitmap(mBitmap, matrix, null);
+        // Matrix matrix = new Matrix();
+        // // 设置转轴位置
+        // matrix.setTranslate((float) width / 2, (float) height / 2);
+        // // 开始转,正--逆时针；负--顺时针
+        // matrix.preRotate(mDetaDegree);
+        // // 转轴还原
+        // matrix.preTranslate(-(float) width / 2, -(float) height / 2);
+        // // 将位置送到view的中心
+        // matrix.postTranslate((float) (mMaxWidth - width) / 2, (float)
+        // (mMaxWidth - height) / 2);
+        // canvas.drawBitmap(mBitmap, matrix, null);
+        //
+
         // canvas.drawArc(mOvalRectF, mMinDegree, mMaxProgress, false,
         // mMainPaint);
         // canvas.drawArc(mOvalRectF, mMinDegree, mCurrentProgress, false,
@@ -169,7 +200,6 @@ public class RevolveGestureView extends View {
             canvas.drawCircle(pointF.x, pointF.y, 2, mFirstPaint);
         }
 
-        super.onDraw(canvas);
     }
 
     private float mCurrentDegree = 0f;
@@ -185,6 +215,7 @@ public class RevolveGestureView extends View {
         float currentY;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
+                setPressed(true);
                 lastX = event.getX();
                 lastY = event.getY();
                 mCurrentDegree = detaDegree(mCenterX, mCenterY, lastX, lastY);
@@ -209,6 +240,8 @@ public class RevolveGestureView extends View {
                 invalidate();
                 return true;
             }
+            case MotionEvent.ACTION_CANCEL:
+                setPressed(false);
         }
         return super.onTouchEvent(event);
     }

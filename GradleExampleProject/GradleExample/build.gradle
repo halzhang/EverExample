@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        /*gradle 的编译版本*/
+        classpath 'com.android.tools.build:gradle:0.5.+'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    /*    compile fileTree(dir:'libs',include:'*.jar') */
+    compile 'com.android.support:support-v4:18.0.0'
+    /*compile project(':GradleLibrary')*/
+}
+
+/*这个 Android 对象是和 apply plugin 一致的*/
+android {
+    compileSdkVersion 17
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 16
+    }
+    sourceSets{
+        main {
+            res {
+                srcDirs = [
+                        'src/main/res',
+                        'src/main/res2/layout'
+                ]
+            }
+        }
+    }
+    productFlavors{
+        simple {
+            packageName "com.halzhang.android.gradle.simple"
+        }
+        complex {
+            packageName "com.halzhang.android.gradle.c"
+            dependencies {
+                complexCompile project(':GradleLibrary')
+            }
+        }
+
+    }
+
+    task custom(description: 'This is our custom task') << { task ->
+        println "Running task ${task.name}"
+    }
+
+    assemble.dependsOn 'custom'
+}

@@ -168,4 +168,8 @@ pip-log.txt
 *.iml
 out
 module_*.xml
-build
+build/
+
+#Android
+gen/
+bin/

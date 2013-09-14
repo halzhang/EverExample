@@ -1,0 +1,2 @@
+/*GradleExample is a sub-project and needs to be built as part of the full project build. */
+include ':GradleExample', ':GradleLibrary'
