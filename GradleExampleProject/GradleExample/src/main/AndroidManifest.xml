@@ -25,10 +25,14 @@
         <activity
             android:name="com.halzhang.android.examples.gradleexample.ItemDetailActivity"
             android:label="@string/title_item_detail"
-            android:parentActivityName=".ItemListActivity" >
+            android:parentActivityName="com.halzhang.android.examples.gradleexample.ItemListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
+        </activity>
+        <activity
+            android:name="com.halzhang.android.examples.gradleexample.SecondActivity"
+            android:label="@string/title_activity_second" >
         </activity>
     </application>
 

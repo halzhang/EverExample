@@ -1,13 +1,14 @@
 package com.halzhang.android.examples.gradleexample;
 
+import com.halzhang.android.examples.gradleexample.dummy.DummyContent;
+import com.halzhang.utils.TipUtils;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.halzhang.android.examples.gradleexample.dummy.DummyContent;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -53,7 +54,7 @@ public class ItemDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.content);
+            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.content+ TipUtils.getMessage());
         }
 
         return rootView;

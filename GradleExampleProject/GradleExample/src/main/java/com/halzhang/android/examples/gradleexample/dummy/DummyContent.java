@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.halzhang.utils.TipUtils;
 /**
  * Helper class for providing sample content for user interfaces created by
  * Android template wizards.

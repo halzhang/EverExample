@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         /*gradle 的编译版本*/
-        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:0.9.+'
     }
 }
 apply plugin: 'android'
@@ -14,9 +14,8 @@ repositories {
 }
 
 dependencies {
-    /*    compile fileTree(dir:'libs',include:'*.jar') */
     compile 'com.android.support:support-v4:18.0.0'
-    /*compile project(':GradleLibrary')*/
+    compile 'com.android.support:appcompat-v7:18.0.0'
 }
 
 /*这个 Android 对象是和 apply plugin 一致的*/
@@ -31,29 +30,55 @@ android {
     sourceSets{
         main {
             res {
+                /*多个资源目录*/
                 srcDirs = [
                         'src/main/res',
-                        'src/main/res2/layout'
+                        'src/main/res2'
                 ]
             }
         }
+
+       /* test{
+            java{
+                srcDir 'src/java'
+            }
+        }*/
     }
     productFlavors{
+        flavor1{
+            packageName "com.halzhang.android.gradle.flavor1"
+        }
+
         simple {
             packageName "com.halzhang.android.gradle.simple"
         }
         complex {
-            packageName "com.halzhang.android.gradle.c"
+            packageName "com.halzhang.android.gradle.complex"
+            /*sourceSets{
+                main{
+                    java{
+                        srcDir 'src/complx/java'
+                    }
+                }
+            }*/
             dependencies {
+                /*lib 依赖*/
                 complexCompile project(':GradleLibrary')
             }
         }
 
     }
+   /* project.ext.complex = [
+        releaseJava:['src/complx/java']
+    ]
 
-    task custom(description: 'This is our custom task') << { task ->
+    project.ext.simple = [
+        releaseJava:['src/simple/java']
+    ]*/
+
+    /*task custom(description: 'This is our custom task') << { task ->
         println "Running task ${task.name}"
     }
 
-    assemble.dependsOn 'custom'
+    assemble.dependsOn 'custom'*/
 }

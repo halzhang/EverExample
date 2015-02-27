@@ -1,13 +1,13 @@
 package com.halzhang.android.examples.gradleexample;
 
+import com.halzhang.android.examples.gradleexample.dummy.DummyContent;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import com.halzhang.android.examples.gradleexample.dummy.DummyContent;
 
 /**
  * A list fragment representing a list of Items. This fragment
