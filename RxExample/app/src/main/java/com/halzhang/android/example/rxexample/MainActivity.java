@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.android.view.OnClickEvent;
+import rx.android.view.ViewObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -65,6 +67,16 @@ public class MainActivity extends ActionBarActivity {
                         Log.e(LOG_TAG, throwable.getMessage(), throwable);
                     }
                 });
+
+        /**
+         * view事件处理
+         */
+        ViewObservable.clicks(findViewById(R.id.text), false).subscribe(new Action1<OnClickEvent>() {
+            @Override
+            public void call(OnClickEvent onClickEvent) {
+
+            }
+        });
     }
 
 
