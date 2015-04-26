@@ -38,12 +38,12 @@ public class MainActivity extends ActionBarActivity {
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<WeatherData>() {
+                .subscribe(/*onNext*/new Action1<WeatherData>() {
                     @Override
                     public void call(WeatherData weatherData) {
                         Log.d(LOG_TAG, weatherData.toString());
                     }
-                }, new Action1<Throwable>() {
+                }, /*onError*/new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
 
@@ -69,7 +69,7 @@ public class MainActivity extends ActionBarActivity {
                 });
 
         /**
-         * view事件处理
+         * Android View 事件处理
          */
         ViewObservable.clicks(findViewById(R.id.text), false).subscribe(new Action1<OnClickEvent>() {
             @Override
