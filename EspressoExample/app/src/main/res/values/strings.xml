@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">EspressoExample</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_login_message">LoginMessageActivity</string>
+
+    <string name="hint_username">enter username</string>
+    <string name="title_activity_data_list">DataListActivity</string>
+</resources>
