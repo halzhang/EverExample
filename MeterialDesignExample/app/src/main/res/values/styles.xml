@@ -1,0 +1,27 @@
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- enable window content transitions -->
+        <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
+        <!-- specify enter and exit transitions -->
+        <item name="android:windowEnterTransition" tools:ignore="NewApi">@transition/explode</item>
+        <item name="android:windowExitTransition" tools:ignore="NewApi">@transition/explode</item>
+        <!-- specify shared element transitions -->
+        <item name="android:windowSharedElementEnterTransition" tools:ignore="NewApi">@transition/change_image_transform</item>
+        <item name="android:windowSharedElementExitTransition" tools:ignore="NewApi">@transition/change_image_transform</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <!-- status bar color -->
+        <item name="colorPrimary">@android:color/holo_blue_light</item>
+        <item name="colorPrimaryDark">@android:color/holo_blue_light</item>
+    </style>
+
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="android:background"  tools:ignore="NewApi">@android:color/holo_blue_light</item>
+        <item name="background">@android:color/holo_blue_light</item>
+    </style>
+
+
+</resources>

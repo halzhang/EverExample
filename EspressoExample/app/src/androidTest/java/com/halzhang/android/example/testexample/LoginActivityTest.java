@@ -18,7 +18,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  */
 public class LoginActivityTest extends ActivityInstrumentationTestCase2<LoginActivity> {
 
-    private static final String USERNAME = "Espresso";//ÖĞÎÄÊäÈë·¨»áÓĞÎÊÌâ
+    private static final String USERNAME = "Espresso";//ä¸­æ–‡è¾“å…¥æ³•ä¼šæœ‰é—®é¢˜
     private static final String MATCHES_TEXT = "hello," + USERNAME;
 
     public LoginActivityTest() {
