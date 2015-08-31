@@ -29,6 +29,12 @@ public class MainActivity extends AppCompatActivity {
         binding.setUser(user);
 
         listView = (ListView) findViewById(R.id.list);
+        for (int i = 0; i < 100; i++) {
+            Course course = new Course("name" + i, "teacher" + i, System.nanoTime());
+            mCourses.add(course);
+        }
+        MyAdapter adapter = new MyAdapter();
+        listView.setAdapter(adapter);
     }
 
     private class MyAdapter extends BaseAdapter {
@@ -50,9 +56,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ListItemBinding binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.list_item, parent, false);
+            ViewHolder viewHolder;
+            if (convertView == null) {
+                ListItemBinding binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.list_item, parent, false);
+                convertView = binding.getRoot();
+                viewHolder = new ViewHolder();
+                viewHolder.view = convertView;
+                convertView.setTag(viewHolder);
+            } else {
+                viewHolder = (ViewHolder) convertView.getTag();
+            }
+            ListItemBinding binding = DataBindingUtil.bind(viewHolder.view);
             binding.setCourse(mCourses.get(position));
-            return binding.getRoot();
+            return convertView;
         }
 
         class ViewHolder {
