@@ -1,11 +1,13 @@
 package com.halzhang.android.example.rxexample;
 
+
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import retrofit.http.Query;
 import rx.Observable;
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
+
 
 /**
  * 接口

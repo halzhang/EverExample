@@ -7,10 +7,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding.view.RxView;
+import com.jakewharton.rxbinding.view.ViewEvent;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.android.view.OnClickEvent;
-import rx.android.view.ViewObservable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -68,15 +69,20 @@ public class MainActivity extends ActionBarActivity {
                     }
                 });
 
+
+
+
         /**
          * Android View 事件处理
          */
-        ViewObservable.clicks(findViewById(R.id.text), false).subscribe(new Action1<OnClickEvent>() {
+        RxView.clicks(findViewById(R.id.text)).subscribe(new Action1<Void>() {
+
             @Override
-            public void call(OnClickEvent onClickEvent) {
+            public void call(Void aVoid) {
 
             }
         });
+
     }
 
 
