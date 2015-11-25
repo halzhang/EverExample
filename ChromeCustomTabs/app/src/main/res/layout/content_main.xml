@@ -13,6 +13,13 @@
     tools:context="com.halzhang.android.examples.chromecustomtabs.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <Button
+        android:id="@+id/open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="open"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
