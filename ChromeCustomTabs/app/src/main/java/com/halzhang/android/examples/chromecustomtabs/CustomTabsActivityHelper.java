@@ -10,7 +10,6 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.customtabs.CustomTabsServiceConnection;
 import android.support.customtabs.CustomTabsSession;
-import android.support.v4.app.INotificationSideChannel;
 import android.text.TextUtils;
 import android.util.Log;
 
