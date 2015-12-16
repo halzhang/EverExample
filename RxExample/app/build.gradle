@@ -10,12 +10,21 @@ android {
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug{
+            debuggable true
+        }
+    }
+
+    testOptions {
+        resultsDir = "${project.buildDir}/foo/results"
     }
 }
 
@@ -24,6 +33,11 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'io.reactivex:rxjava:1.0.16'
     compile 'io.reactivex:rxandroid:1.0.1'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.3.0'
+    compile ('com.jakewharton.rxbinding:rxbinding:0.3.0'){
+        exclude module:'support-annotations'
+    }
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    androidTestCompile 'com.android.support.test:runner:0.2'
+    androidTestCompile 'com.android.support.test:rules:0.2'
 }
