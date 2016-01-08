@@ -8,6 +8,8 @@ import com.bumptech.glide.GenericRequestBuilder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.ListPreloader;
 
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
         //TODO init views
         listView.setOnScrollListener(listPreloader);
@@ -50,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }, new ListPreloader.PreloadSizeProvider<MyModel>() {
         @Override
         public int[] getPreloadSize(MyModel item, int adapterPosition, int perItemPosition) {
-            int[] size = {500, 500};
-            return size;
+            return new int[]{500, 500};
         }
     }, 3);
 
