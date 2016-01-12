@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <!-- 只在23以上版本并请求了授权后有效 -->
     <uses-permission-sdk-23 android:name="android.permission.CALL_PHONE"/>
 
 </manifest>
