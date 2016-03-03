@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityMainBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-        User user = new User("username", "password");
+        User user = new User("username", "password", "http://images.unsplash.com/photo-1454678904372-2ca94103eca4");
         binding.setUser(user);
 
         listView = (ListView) findViewById(R.id.list);
@@ -56,23 +56,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
+            ListItemBinding binding;
             if (convertView == null) {
-                ListItemBinding binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.list_item, parent, false);
+                binding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.list_item, parent, false);
                 convertView = binding.getRoot();
-                viewHolder = new ViewHolder();
-                viewHolder.view = convertView;
-                convertView.setTag(viewHolder);
+                convertView.setTag(binding);
             } else {
-                viewHolder = (ViewHolder) convertView.getTag();
+                binding = (ListItemBinding) convertView.getTag();
             }
-            ListItemBinding binding = DataBindingUtil.bind(viewHolder.view);
             binding.setCourse(mCourses.get(position));
             return convertView;
-        }
-
-        class ViewHolder {
-            View view;
         }
     }
 

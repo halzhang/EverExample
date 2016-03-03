@@ -6,10 +6,12 @@ package com.halzhang.android.example.databindingexample;
 public class User {
     public final String username;
     public final String password;
+    public final String avatar;
 
-    public User(String username, String password) {
+    public User(String username, String password, String avatar) {
         this.username = username;
         this.password = password;
+        this.avatar = avatar;
     }
 
     public String getUsername() {
@@ -18,5 +20,9 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }
