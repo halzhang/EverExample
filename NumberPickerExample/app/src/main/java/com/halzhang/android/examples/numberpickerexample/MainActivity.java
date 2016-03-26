@@ -5,10 +5,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.NumberPicker;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,9 +28,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        NumberPicker picker = (NumberPicker) findViewById(R.id.number_picker);
-        picker.setMinValue(0);
-        picker.setMaxValue(10);
+        StringPicker picker = (StringPicker) findViewById(R.id.number_picker);
+        picker.setPickerAdapter(new MyPickerAdapter());
+        picker.setOnValueChangedListener(new StringPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(StringPicker picker, int oldVal, int newVal) {
+                Log.i("Picker", "oldVal: " + oldVal + " newVal: " + newVal);
+            }
+        });
+    }
+
+    private class MyPickerAdapter extends BasePickerAdapter {
+
+        @Override
+        public int getCount() {
+            return 20;
+        }
+
+        @Override
+        public int getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public String getText(int position) {
+            return "男男女女" + position;
+        }
     }
 
     @Override

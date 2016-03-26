@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="PAFFNumberPicker">
+        <attr name="solidColor" format="color|reference" />
+        <attr name="selectionDivider" format="reference" />
+        <attr name="selectionDividerHeight" format="dimension" />
+        <attr name="selectionDividersDistance" format="dimension" />
+        <attr name="internalMinHeight" format="dimension" />
+        <attr name="internalMaxHeight" format="dimension" />
+        <attr name="internalMinWidth" format="dimension" />
+        <attr name="internalMaxWidth" format="dimension" />
+        <attr name="internalLayout" format="reference"/>
+    </declare-styleable>
+</resources>
