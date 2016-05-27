@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
+ * 提供{@link IUserApi}
  * Created by zhanghanguo@yy.com on 2016/5/27.
  */
 @Module
