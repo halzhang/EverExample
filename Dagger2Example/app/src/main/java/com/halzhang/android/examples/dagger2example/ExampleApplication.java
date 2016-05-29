@@ -7,17 +7,17 @@ import android.app.Application;
  */
 public class ExampleApplication extends Application {
 
-    private IUserApiComponent mUserApiComponent;
+    private UserApiComponent mUserApiComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mUserApiComponent = DaggerIUserApiComponent.builder()
+        mUserApiComponent = DaggerUserApiComponent.builder()
                 .applicationModule(new ApplicationModule(getApplicationContext()))
                 .userApiModule(new UserApiModule()).build();
     }
 
-    public IUserApiComponent getUserApiComponent() {
+    public UserApiComponent getUserApiComponent() {
         return mUserApiComponent;
     }
 }

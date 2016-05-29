@@ -23,10 +23,16 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.3.0'
 
     // Dagger dependencies
     apt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"
+
+    //RxJava
+    compile "io.reactivex:rxjava:$rootProject.rxJavaVersion"
+    compile "io.reactivex:rxandroid:$rootProject.rxAndroidVersion"
+    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:design:23.4.0'
 }

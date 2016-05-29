@@ -25,4 +25,6 @@ task clean(type: Delete) {
 
 ext {
     daggerVersion = '2.0'
+    rxJavaVersion = '1.1.5'
+    rxAndroidVersion = '1.2.0'
 }

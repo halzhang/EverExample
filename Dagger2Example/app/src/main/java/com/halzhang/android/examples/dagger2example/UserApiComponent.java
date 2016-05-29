@@ -9,7 +9,7 @@ import dagger.Component;
  */
 @Singleton
 @Component(modules = {UserApiModule.class, ApplicationModule.class})
-public interface IUserApiComponent {
+public interface UserApiComponent {
 
     IUserApi getUserApi();
 
