@@ -30,7 +30,7 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     /**
-     * 注入调用，设置 Presenter
+     * 注入自动调用，设置 Presenter
      */
     @Inject
     void setupListeners() {
