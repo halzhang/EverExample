@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'org.greenrobot.greendao'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "com.halzhang.android.examples.greendao3example"
+        minSdkVersion 15
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+greendao {
+    schemaVersion 1
+    daoPackage 'com.halzhang.android.examples.greendao3example.dao'
+    targetGenDir 'src/main/java' //不要放在build里面，AS会找不到，挺神奇
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'org.greenrobot:greendao:3.0.1'
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.3'
+}

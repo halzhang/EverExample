@@ -128,4 +128,9 @@ public class RxOperatorsTest extends ActivityInstrumentationTestCase2 {
                 });
 
     }
+
+    @Test
+    public void textRetryWhen(){
+
+    }
 }
