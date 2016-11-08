@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +22,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Button button;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Slide slideTransition = (Slide) TransitionInflater.from(getApplicationContext()).inflateTransition(R.transition.slide_left);// new Slide();
+//        slideTransition.setSlideEdge(Gravity.LEFT);
+//        slideTransition.setDuration(300);
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
+
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
                 //
                 View myView = findViewById(R.id.image);
 
-                revealView(myView);
+//                revealView(myView);
 
-                revealView(findViewById(R.id.reveal));
+//                revealView(findViewById(R.id.reveal));
 
-//                startTransitionActivity();
+                startTransitionActivity();
 
             }
         });

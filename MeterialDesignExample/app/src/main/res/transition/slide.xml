@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<transitionSet>
-    <slide/>
+<transitionSet xmlns:tools="http://schemas.android.com/tools"
+               xmlns:android="http://schemas.android.com/apk/res/android">
+    <slide android:slideEdge="right"
+           android:duration="300"
+           tools:targetApi="lollipop">
+        <targets>
+            <target android:excludeId="@android:id/statusBarBackground"/>
+            <target android:excludeId="@android:id/navigationBarBackground"/>
+        </targets>
+    </slide>
 </transitionSet>
