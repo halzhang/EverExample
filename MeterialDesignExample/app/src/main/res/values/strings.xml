@@ -15,5 +15,11 @@
         <item>Henry</item>
         <item>Schuster</item>
     </string-array>
+
+    <string-array name="features">
+        <item>Animation</item>
+        <item>Transition</item>
+    </string-array>
+
     <string name="title_activity_transition">TransitionActivity</string>
 </resources>
