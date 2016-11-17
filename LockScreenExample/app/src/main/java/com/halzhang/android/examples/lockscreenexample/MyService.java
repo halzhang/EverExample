@@ -19,7 +19,6 @@ public class MyService extends Service {
         super.onCreate();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         registerReceiver(mReceiver, intentFilter);
     }
 
@@ -41,9 +40,9 @@ public class MyService extends Service {
             String action = intent.getAction();
             Log.w(TAG, "onReceive: " + action);
             if (Intent.ACTION_SCREEN_ON.equals(action)) {
-                Intent lockscreen = new Intent(context, LockScreenActivity.class);
-                lockscreen.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(lockscreen);
+                Intent lockScreenIntent = new Intent(context, LockScreenActivity.class);
+                lockScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(lockScreenIntent);
             }
         }
     };

@@ -33,6 +33,15 @@
             android:enabled="true"
             android:exported="false">
         </service>
+
+        <!--
+          屏幕打开关闭广播不支持静态注册
+        <receiver android:name=".ScreenBroadcastReceiver">
+              <intent-filter>
+                  <action android:name="android.intent.action.SCREEN_OFF"/>
+                  <action android:name="android.intent.action.SCREEN_ON"/>
+              </intent-filter>
+          </receiver>-->
     </application>
 
 </manifest>
