@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AccessibilityExample</string>
+    <string name="accessibility_service_description">微信无障碍</string>
+</resources>
