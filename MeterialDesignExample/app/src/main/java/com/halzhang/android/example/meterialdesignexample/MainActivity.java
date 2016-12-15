@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, mFeatureTitles));
 
-
-
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
                 startTransitionActivity();
 
+            }
+        });
+
+        findViewById(R.id.btn_recycler).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RecyclerViewActivity.start(getApplicationContext());
             }
         });
     }
