@@ -10,6 +10,9 @@ import java.util.List;
 public class MyAccessibilityService extends AccessibilityService {
     private static final String TAG = "MyAccessibilityService";
 
+    public static final int STEP_COUNT = 5;
+    private int mCurrentStep = 0;
+
     public MyAccessibilityService() {
     }
 
@@ -40,6 +43,9 @@ public class MyAccessibilityService extends AccessibilityService {
 
     }
 
+    /**
+     * 1、打开聊天界面
+     */
     private void openChat() {
         AccessibilityNodeInfo nodeInfo = getRootInActiveWindow();
         if (nodeInfo != null) {
@@ -52,6 +58,28 @@ public class MyAccessibilityService extends AccessibilityService {
                 break;
             }
         }
+    }
+
+    /**
+     * 2、打开聊天设置界面
+     */
+    private void openChatSettingPage() {
+
+    }
+
+    /**
+     * 3、打开用户个人资料页面，并获取微信号，并点击“发消息”，打开聊天页面
+     */
+    private void openUserInfoPage() {
+
+    }
+
+    /**
+     * 4、打开聊天界面，
+     * @param message
+     */
+    private void openChatPageSendMessage(String message){
+
     }
 
     @Override
