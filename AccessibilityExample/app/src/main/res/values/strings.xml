@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">AccessibilityExample</string>
+    <string name="accessibility_mobile_qq">QQ群自动聊天</string>
+    <string name="accessibility_mobile_wechat">微信自动回复</string>
     <string name="accessibility_service_description">微信无障碍</string>
+    <string name="accessibility_service_description_qq">QQ群成员自动发送消息</string>
 </resources>
