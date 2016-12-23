@@ -32,19 +32,37 @@ public class QQAccessibilityService extends AccessibilityService {
     private AtomicBoolean isProcessing = new AtomicBoolean(false);
 
     private Handler handler = new Handler();
+    private static String sQQGroupTitle = "enjoypbt机械键盘B群";
+    private int mRecentChatListIndex = 0;
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent accessibilityEvent) {
         int eventType = accessibilityEvent.getEventType();
-//        Log.i(TAG, "onAccessibilityEvent: " + eventType);
+        Log.i(TAG, "onAccessibilityEvent: " + eventType + " step: " + mCurrentStep);
         switch (eventType) {
             case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
-                openQQGroupChat();
-                openQQGroupSetting();
-                openQQGroupMember();
-                openUserInfoPage();
-                getQQNumberAndOpenChatPage();
-                sendMessageAndBack("hello " + mCurrentQQNum);
+                switch (mCurrentStep) {
+                    case 1:
+                        openQQGroupChat();
+                        break;
+                    case 2:
+                        openQQGroupSetting();
+                        break;
+                    case 3:
+                        openQQGroupMember();
+                        break;
+                    case 4:
+                        openUserInfoPage();
+                        break;
+                    case 5:
+                        getQQNumberAndOpenChatPage();
+                        break;
+                    case 6:
+                        sendMessageAndBack("hello " + mCurrentQQNum);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             default:
                 break;
@@ -64,84 +82,153 @@ public class QQAccessibilityService extends AccessibilityService {
         Log.i(TAG, "onCreate: start");
     }
 
+    private void reset() {
+        mCurrentStep = 1;
+        isProcessing.set(false);
+        mHasOpenUserInfoNick.clear();
+        mHasSendQqNums.clear();
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCurrentStep = 1;
-        mHasOpenUserInfoNick.clear();
-        mHasSendQqNums.clear();
+        reset();
         Log.i(TAG, "onDestroy: end");
+    }
+
+    private void nextStep() {
+        mCurrentStep++;
+    }
+
+    private void prevStep() {
+        mCurrentStep--;
+    }
+
+    private void releaseProccess() {
+        isProcessing.set(false);
     }
 
     /**
      * 1、打开群组聊天
      */
     private void openQQGroupChat() {
-        if (mCurrentStep != 1) {
+        if (mCurrentStep != 1 || isProcessing.get()) {
             return;
         }
+        isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
-        AccessibilityNodeInfo unreadmsgNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/unreadmsg");
-        if (unreadmsgNodeInfo == null) {
+        if (rootNodeInfo == null) {
+            releaseProccess();
             return;
         }
-        AccessibilityNodeInfo listItemNodeInfo = unreadmsgNodeInfo.getParent().getParent().getParent();
-        if ("android.widget.LinearLayout".equals(listItemNodeInfo.getClassName())) {
-            Log.i(TAG, "openQQGroupChat: find list item node info");
-            listItemNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            mCurrentStep++;
+
+        AccessibilityNodeInfo listViewNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/recent_chat_list");
+        if (listViewNodeInfo == null) {
+            releaseProccess();
+            return;
         }
+        if (TextUtils.equals("android.widget.AbsListView", listViewNodeInfo.getClassName())) {
+            int childCount = listViewNodeInfo.getChildCount();
+            if (mRecentChatListIndex == childCount - 1) {
+                mRecentChatListIndex = 0;
+            }
+            for (int i = mRecentChatListIndex; i < childCount; i++) {
+                AccessibilityNodeInfo listItemNodeInfo = listViewNodeInfo.getChild(i);
+                if (TextUtils.equals("android.widget.LinearLayout", listItemNodeInfo.getClassName())) {
+                    Log.i(TAG, "openQQGroupChat: find list item node info");
+                    listItemNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    mRecentChatListIndex = i + 1;
+                    nextStep();
+                    releaseProccess();
+                    return;
+                }
+            }
+        }
+
+//        AccessibilityNodeInfo unreadmsgNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/unreadmsg");
+//        if (unreadmsgNodeInfo == null) {
+//            return;
+//        }
+//        AccessibilityNodeInfo listItemNodeInfo = unreadmsgNodeInfo.getParent().getParent().getParent();
+//        if ("android.widget.LinearLayout".equals(listItemNodeInfo.getClassName())) {
+//            Log.i(TAG, "openQQGroupChat: find list item node info");
+//            listItemNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//            mCurrentStep++;
+//        }
     }
 
     /**
      * 2、打开群设置页面
      */
     private void openQQGroupSetting() {
-        if (mCurrentStep != 2) {
+        if (mCurrentStep != 2 || isProcessing.get()) {
             return;
         }
+        isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
+        if (rootNodeInfo == null) {
+            releaseProccess();
+            return;
+        }
         AccessibilityNodeInfo titleNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/title");
         if (titleNodeInfo == null) {
+            releaseProccess();
             return;
         }
-        // TODO: 16/12/21 正式发布打开
-//        String title = titleNodeInfo.getText().toString().trim();
-//        if (!TextUtils.equals("群名称", title)) {
-//            return;
-//        }
+        CharSequence title = titleNodeInfo.getText();
+        Log.i(TAG, "openQQGroupSetting: title: " + title);
+        if (!TextUtils.equals(sQQGroupTitle, title)) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            back(true);
+            prevStep();
+            releaseProccess();
+            return;
+        }
+        Log.i(TAG, "openQQGroupSetting: find qq group " + sQQGroupTitle);
         AccessibilityNodeInfo groupInfoBtnNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/ivTitleBtnRightImage");
         if (groupInfoBtnNodeInfo == null) {
+            releaseProccess();
             return;
         }
         groupInfoBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-        mCurrentStep++;
-
+        nextStep();
+        releaseProccess();
     }
 
     /**
      * 3、打开群成员页面,遍历列表，并打开用户资料页面
      */
     private void openQQGroupMember() {
-        if (mCurrentStep != 3) {
+        if (mCurrentStep != 3 || isProcessing.get()) {
             return;
         }
+        isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
+        if (rootNodeInfo == null) {
+            releaseProccess();
+            return;
+        }
         AccessibilityNodeInfo addNodeInfo = Utils.getNodeInfoByIdAndText(rootNodeInfo, "com.tencent.mobileqq:id/title", "群成员");
         if (addNodeInfo == null) {
+            releaseProccess();
             return;
         }
         AccessibilityNodeInfo groupMemberNodeInfo = addNodeInfo.getParent();
         if (groupMemberNodeInfo != null) {
             groupMemberNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-            mCurrentStep++;
+            nextStep();
         }
+        releaseProccess();
     }
 
     /**
      * 4、打开用户资料页面
      */
-    private void openUserInfoPage() {
+    private synchronized void openUserInfoPage() {
         if (mCurrentStep != 4 || isProcessing.get()) {
             return;
         }
@@ -149,21 +236,27 @@ public class QQAccessibilityService extends AccessibilityService {
 
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            isProcessing.set(false);
+            releaseProccess();
             return;
         }
 
         List<AccessibilityNodeInfo> nickNameNodeInfos = rootNodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/tv_name");
         if (nickNameNodeInfos == null || nickNameNodeInfos.isEmpty()) {
-            isProcessing.set(false);
+            releaseProccess();
             return;
         }
 
         for (AccessibilityNodeInfo nickNameNodeInfo : nickNameNodeInfos) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             String nickName = nickNameNodeInfo.getText().toString();
             if (nickNameNodeInfo.getParent() == null || nickNameNodeInfo.getParent().getParent() == null) {
                 Log.w(TAG, "openUserInfoPage: nicknameNodeinfo parent is empty ,nickname: " + nickName);
-                continue;
+                releaseProccess();
+                return;
             }
             AccessibilityNodeInfo listItemNodeInfo = nickNameNodeInfo.getParent().getParent();
             if ("android.widget.FrameLayout".equals(listItemNodeInfo.getClassName())) {
@@ -175,29 +268,23 @@ public class QQAccessibilityService extends AccessibilityService {
                     continue;
                 }
 
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 Log.i(TAG, "openUserInfoPage: nickname: " + nickName);
                 mHasOpenUserInfoNick.add(nickName);
                 AccessibilityNodeInfo childNodeInfo = listItemNodeInfo.getChild(0);
                 // listview 的 NodeInfo 层级比较坑
                 childNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                mCurrentStep++;
-                isProcessing.set(false);
+                nextStep();
+                releaseProccess();
                 return;
             }
         }
 
-        Log.i(TAG, "openUserInfoPage: all nick has send scroll forward");
         final AccessibilityNodeInfo listViewNodeInfo = Utils.getParentByClassName(nickNameNodeInfos.get(0), "android.widget.AbsListView");
-        isProcessing.set(false);
+        releaseProccess();
         if (listViewNodeInfo == null) {
             return;
         }
+        Log.i(TAG, "openUserInfoPage: all nick has send scroll forward");
         listViewNodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
     }
 
@@ -214,6 +301,7 @@ public class QQAccessibilityService extends AccessibilityService {
     }
 
     /**
+     * 用户资料页面
      * 5、获取 QQ 号码，并打开聊天界面
      */
     private void getQQNumberAndOpenChatPage() {
@@ -222,26 +310,20 @@ public class QQAccessibilityService extends AccessibilityService {
             return;
         }
         isProcessing.set(true);
-
-
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
-
-        //test
-        if (DEBUG) {
-            back();
-            mCurrentStep--;
-            isProcessing.set(false);
+        if (rootNodeInfo == null) {
+            releaseProccess();
             return;
         }
-        //
-
 
         AccessibilityNodeInfo accountLabelNodeInfo = Utils.getNodeInfoByTextAndClassName(rootNodeInfo, "帐号信息", "android.widget.TextView");
         if (accountLabelNodeInfo == null) {
+            releaseProccess();
             return;
         }
         AccessibilityNodeInfo accountParentNodeInfo = accountLabelNodeInfo.getParent();
         if (accountParentNodeInfo == null) {
+            releaseProccess();
             return;
         }
         if (TextUtils.equals("android.widget.RelativeLayout", accountParentNodeInfo.getClassName())) {
@@ -250,7 +332,7 @@ public class QQAccessibilityService extends AccessibilityService {
             Log.i(TAG, "getQQNumberAndOpenChatPage: " + qqNum);
             if (mHasSendQqNums.contains(qqNum)) {
                 back();
-                mCurrentStep--;
+                prevStep();
             } else {
                 mCurrentQQNum = qqNum;
                 AccessibilityNodeInfo sendMessageBtnNodeInfo = Utils.getNodeInfoByTextAndClassName(rootNodeInfo, "发消息", "android.widget.Button");
@@ -258,9 +340,10 @@ public class QQAccessibilityService extends AccessibilityService {
                     return;
                 }
                 sendMessageBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-                mCurrentStep++;
+                nextStep();
             }
         }
+        releaseProccess();
     }
 
     private String parseQQMNumber(CharSequence source) {
@@ -278,31 +361,41 @@ public class QQAccessibilityService extends AccessibilityService {
      * @param message
      */
     private void sendMessageAndBack(String message) {
-        if (mCurrentStep != 6) {
+        if (mCurrentStep != 6 || isProcessing.get()) {
             return;
         }
+        isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
+        if (rootNodeInfo == null) {
+            releaseProccess();
+            return;
+        }
         AccessibilityNodeInfo inputNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/input");
         if (inputNodeInfo == null) {
+            releaseProccess();
             return;
         }
         if (TextUtils.equals("android.widget.EditText", inputNodeInfo.getClassName())) {
             Utils.setText(this, inputNodeInfo, message);
             final AccessibilityNodeInfo sendBtnNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/fun_btn");
             if (sendBtnNodeInfo == null) {
+                releaseProccess();
                 return;
             }
             if (TextUtils.equals("android.widget.Button", sendBtnNodeInfo.getClassName())) {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        sendBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+//                        sendBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                        Log.i(TAG, "run: " + mCurrentQQNum + " send!");
                         mHasSendQqNums.add(mCurrentQQNum);
                         mCurrentStep = 1;
                         back();
+                        releaseProccess();
                     }
                 }, 1000);
-
+            } else {
+                releaseProccess();
             }
         }
     }
