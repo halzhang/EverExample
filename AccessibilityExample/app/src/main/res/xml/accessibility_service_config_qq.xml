@@ -7,5 +7,8 @@
                        android:description="@string/accessibility_service_description_qq"
                        android:notificationTimeout="100"
                        android:packageNames="com.tencent.mobileqq"
-                       android:settingsActivity="com.halzhang.android.examples.accessibilityexample.ServiceSettingsActivity"
     />
+<!--
+                       android:settingsActivity="com.halzhang.android.examples.accessibilityexample.QQServiceSettingsActivity"
+
+-->

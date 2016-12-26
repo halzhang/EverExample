@@ -104,7 +104,7 @@ public class QQAccessibilityService extends AccessibilityService {
         mCurrentStep--;
     }
 
-    private void releaseProccess() {
+    private void releaseProcess() {
         isProcessing.set(false);
     }
 
@@ -118,13 +118,13 @@ public class QQAccessibilityService extends AccessibilityService {
         isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
 
         AccessibilityNodeInfo listViewNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/recent_chat_list");
         if (listViewNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         if (TextUtils.equals("android.widget.AbsListView", listViewNodeInfo.getClassName())) {
@@ -139,7 +139,7 @@ public class QQAccessibilityService extends AccessibilityService {
                     listItemNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                     mRecentChatListIndex = i + 1;
                     nextStep();
-                    releaseProccess();
+                    releaseProcess();
                     return;
                 }
             }
@@ -167,12 +167,12 @@ public class QQAccessibilityService extends AccessibilityService {
         isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         AccessibilityNodeInfo titleNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/title");
         if (titleNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         CharSequence title = titleNodeInfo.getText();
@@ -185,18 +185,18 @@ public class QQAccessibilityService extends AccessibilityService {
             }
             back(true);
             prevStep();
-            releaseProccess();
+            releaseProcess();
             return;
         }
         Log.i(TAG, "openQQGroupSetting: find qq group " + sQQGroupTitle);
         AccessibilityNodeInfo groupInfoBtnNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/ivTitleBtnRightImage");
         if (groupInfoBtnNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         groupInfoBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
         nextStep();
-        releaseProccess();
+        releaseProcess();
     }
 
     /**
@@ -209,12 +209,12 @@ public class QQAccessibilityService extends AccessibilityService {
         isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         AccessibilityNodeInfo addNodeInfo = Utils.getNodeInfoByIdAndText(rootNodeInfo, "com.tencent.mobileqq:id/title", "群成员");
         if (addNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         AccessibilityNodeInfo groupMemberNodeInfo = addNodeInfo.getParent();
@@ -222,7 +222,7 @@ public class QQAccessibilityService extends AccessibilityService {
             groupMemberNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
             nextStep();
         }
-        releaseProccess();
+        releaseProcess();
     }
 
     /**
@@ -236,13 +236,13 @@ public class QQAccessibilityService extends AccessibilityService {
 
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
 
         List<AccessibilityNodeInfo> nickNameNodeInfos = rootNodeInfo.findAccessibilityNodeInfosByViewId("com.tencent.mobileqq:id/tv_name");
         if (nickNameNodeInfos == null || nickNameNodeInfos.isEmpty()) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
 
@@ -255,7 +255,7 @@ public class QQAccessibilityService extends AccessibilityService {
             String nickName = nickNameNodeInfo.getText().toString();
             if (nickNameNodeInfo.getParent() == null || nickNameNodeInfo.getParent().getParent() == null) {
                 Log.w(TAG, "openUserInfoPage: nicknameNodeinfo parent is empty ,nickname: " + nickName);
-                releaseProccess();
+                releaseProcess();
                 return;
             }
             AccessibilityNodeInfo listItemNodeInfo = nickNameNodeInfo.getParent().getParent();
@@ -274,13 +274,13 @@ public class QQAccessibilityService extends AccessibilityService {
                 // listview 的 NodeInfo 层级比较坑
                 childNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                 nextStep();
-                releaseProccess();
+                releaseProcess();
                 return;
             }
         }
 
         final AccessibilityNodeInfo listViewNodeInfo = Utils.getParentByClassName(nickNameNodeInfos.get(0), "android.widget.AbsListView");
-        releaseProccess();
+        releaseProcess();
         if (listViewNodeInfo == null) {
             return;
         }
@@ -312,18 +312,18 @@ public class QQAccessibilityService extends AccessibilityService {
         isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
 
         AccessibilityNodeInfo accountLabelNodeInfo = Utils.getNodeInfoByTextAndClassName(rootNodeInfo, "帐号信息", "android.widget.TextView");
         if (accountLabelNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         AccessibilityNodeInfo accountParentNodeInfo = accountLabelNodeInfo.getParent();
         if (accountParentNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         if (TextUtils.equals("android.widget.RelativeLayout", accountParentNodeInfo.getClassName())) {
@@ -343,7 +343,7 @@ public class QQAccessibilityService extends AccessibilityService {
                 nextStep();
             }
         }
-        releaseProccess();
+        releaseProcess();
     }
 
     private String parseQQMNumber(CharSequence source) {
@@ -367,19 +367,19 @@ public class QQAccessibilityService extends AccessibilityService {
         isProcessing.set(true);
         AccessibilityNodeInfo rootNodeInfo = getRootInActiveWindow();
         if (rootNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         AccessibilityNodeInfo inputNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/input");
         if (inputNodeInfo == null) {
-            releaseProccess();
+            releaseProcess();
             return;
         }
         if (TextUtils.equals("android.widget.EditText", inputNodeInfo.getClassName())) {
             Utils.setText(this, inputNodeInfo, message);
             final AccessibilityNodeInfo sendBtnNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/fun_btn");
             if (sendBtnNodeInfo == null) {
-                releaseProccess();
+                releaseProcess();
                 return;
             }
             if (TextUtils.equals("android.widget.Button", sendBtnNodeInfo.getClassName())) {
@@ -391,11 +391,11 @@ public class QQAccessibilityService extends AccessibilityService {
                         mHasSendQqNums.add(mCurrentQQNum);
                         mCurrentStep = 1;
                         back();
-                        releaseProccess();
+                        releaseProcess();
                     }
                 }, 1000);
             } else {
-                releaseProccess();
+                releaseProcess();
             }
         }
     }
