@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
+import com.halzhang.android.examples.accessibilityexample.models.SettingModel;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,7 +34,8 @@ public class QQAccessibilityService extends AccessibilityService {
     private AtomicBoolean isProcessing = new AtomicBoolean(false);
 
     private Handler handler = new Handler();
-    private static String sQQGroupTitle = "enjoypbt机械键盘B群";
+    private String mGroupTitle;
+    private int mSendCount;
     private int mRecentChatListIndex = 0;
 
     @Override
@@ -80,6 +83,10 @@ public class QQAccessibilityService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "onCreate: start");
+        SettingPresenter presenter = new SettingPresenter(getApplicationContext());
+        SettingModel model = presenter.getSetting();
+        mGroupTitle = model.getQGroupName();
+        mSendCount = model.getSendCount();
     }
 
     private void reset() {
@@ -112,6 +119,10 @@ public class QQAccessibilityService extends AccessibilityService {
      * 1、打开群组聊天
      */
     private void openQQGroupChat() {
+        if (mHasSendQqNums.size() == mSendCount) {
+            Log.i(TAG, "openQQGroupChat: send count has enough!");
+            return;
+        }
         if (mCurrentStep != 1 || isProcessing.get()) {
             return;
         }
@@ -158,6 +169,7 @@ public class QQAccessibilityService extends AccessibilityService {
     }
 
     /**
+     * 群聊天页面
      * 2、打开群设置页面
      */
     private void openQQGroupSetting() {
@@ -177,7 +189,7 @@ public class QQAccessibilityService extends AccessibilityService {
         }
         CharSequence title = titleNodeInfo.getText();
         Log.i(TAG, "openQQGroupSetting: title: " + title);
-        if (!TextUtils.equals(sQQGroupTitle, title)) {
+        if (!TextUtils.equals(mGroupTitle, title)) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -188,7 +200,9 @@ public class QQAccessibilityService extends AccessibilityService {
             releaseProcess();
             return;
         }
-        Log.i(TAG, "openQQGroupSetting: find qq group " + sQQGroupTitle);
+        //找到目标群，重置序号
+        mRecentChatListIndex = 0;
+        Log.i(TAG, "openQQGroupSetting: find qq group " + mGroupTitle);
         AccessibilityNodeInfo groupInfoBtnNodeInfo = Utils.getNodeInfoById(rootNodeInfo, "com.tencent.mobileqq:id/ivTitleBtnRightImage");
         if (groupInfoBtnNodeInfo == null) {
             releaseProcess();
@@ -386,6 +400,8 @@ public class QQAccessibilityService extends AccessibilityService {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
+
+                        // TODO: 16/12/26 测试中先注释
 //                        sendBtnNodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
                         Log.i(TAG, "run: " + mCurrentQQNum + " send!");
                         mHasSendQqNums.add(mCurrentQQNum);

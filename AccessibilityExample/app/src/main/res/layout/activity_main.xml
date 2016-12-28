@@ -15,6 +15,6 @@
         android:id="@+id/btn_open_setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="打开自动发送"/>
+        android:text="打开自动发送设置"/>
 
 </RelativeLayout>

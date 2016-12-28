@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">AccessibilityExample</string>
-    <string name="accessibility_mobile_qq">QQ群自动聊天</string>
+    <string name="app_name">QQ群消息辅助</string>
+    <string name="accessibility_mobile_qq">QQ群消息辅助工具</string>
     <string name="accessibility_mobile_wechat">微信自动回复</string>
     <string name="accessibility_service_description">微信无障碍</string>
     <string name="accessibility_service_description_qq">QQ群成员自动发送消息</string>
     <string name="hint_qq_group">QQ群名</string>
-    <string name="hint_send_count">发送个数</string>
+    <string name="hint_send_count">发送数量</string>
     <string name="title_activity_qqsettings">Settings</string>
 
     <!-- Strings related to Settings -->

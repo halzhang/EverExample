@@ -6,8 +6,8 @@ package com.halzhang.android.examples.accessibilityexample.models;
 
 public class SettingModel {
 
-    public final String mQGroupName;
-    public final int mSendCount;
+    public String mQGroupName;
+    public int mSendCount;
 
     public SettingModel(String QGroupName, int sendCount) {
         mQGroupName = QGroupName;
@@ -20,6 +20,14 @@ public class SettingModel {
 
     public String getQGroupName() {
         return mQGroupName;
+    }
+
+    public void setQGroupName(String QGroupName) {
+        mQGroupName = QGroupName;
+    }
+
+    public void setSendCount(int sendCount) {
+        mSendCount = sendCount;
     }
 
     @Override

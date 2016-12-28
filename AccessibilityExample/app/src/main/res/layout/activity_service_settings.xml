@@ -1,71 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-
-        <variable
-            name="settingModel"
-            type="com.halzhang.android.examples.accessibilityexample.models.SettingModel"/>
-
-        <variable
-            name="settingPresenter"
-            type="com.halzhang.android.examples.accessibilityexample.SettingPresenter"/>
-
-        <import type="java.lang.String"/>
-    </data>
-
-    <LinearLayout
-        android:id="@+id/activity_service_settings"
-
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        tools:context="com.halzhang.android.examples.accessibilityexample.QQServiceSettingsActivity">
+<LinearLayout
+    android:id="@+id/activity_service_settings"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.halzhang.android.examples.accessibilityexample.QQServiceSettingsActivity">
 
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout"
-            android:layout_width="346dp"
-            android:layout_height="55dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/group_til"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp">
 
-            <EditText
-                android:id="@+id/et_group_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_qq_group"
-                android:text="@{settingModel.mQGroupName}"/>
-        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_group_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_qq_group"/>
+    </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputLayout2"
-            android:layout_width="346dp"
-            android:layout_height="55dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/count_til"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp">
 
-            <EditText
-                android:id="@+id/et_send_count"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_send_count"
-                android:text="@{String.valueOf(settingModel.mSendCount)}"/>
-        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/et_send_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_send_count"
+            android:inputType="number"/>
+    </android.support.design.widget.TextInputLayout>
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="199dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
-            android:onClick="@{()->settingPresenter.onSave(settingModel)}"
-            android:text="@android:string/ok"/>
-    </LinearLayout>
-</layout>
+    <Button
+        android:id="@+id/button"
+        android:layout_width="199dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:onClick="onSave"
+        android:text="@android:string/ok"/>
+</LinearLayout>
