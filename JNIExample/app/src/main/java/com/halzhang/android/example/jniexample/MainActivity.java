@@ -11,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+    private JNIEngine mJNIEngine;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        JNIEngine engine = new JNIEngine();
-        Log.i("MainActivity", String.valueOf(engine.init(getApplicationContext())));
+        mJNIEngine = new JNIEngine();
+        Log.i("MainActivity", String.valueOf(mJNIEngine.init(getApplicationContext())));
     }
 
     @Override
@@ -51,5 +53,42 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onTestLocalRefClick(View view) {
+        boolean result = mJNIEngine.testLocalRef();
+        Log.i(TAG, "onTestLocalRefClick: " + result);
+    }
+
+    public void onGetStringClick(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i < Integer.MAX_VALUE) {
+                    i++;
+                    String string = mJNIEngine.createString();
+                    Log.i(TAG, "onGetStringClick: " + string + " " + i);
+                }
+            }
+        }).start();
+    }
+
+    public void onGetBundleClick(View view) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (i < 2000) {
+                    i++;
+                    Bundle data = mJNIEngine.getData();
+                    if (data != null) {
+                        int keyInt = data.getInt("key_int");
+                        Log.i(TAG, "onGetBundleClick: " + keyInt + " call time: " + i);
+                    }
+                }
+            }
+        }).start();
+
     }
 }

@@ -13,7 +13,31 @@ extern "C" {
  * Signature: (Ljava/lang/Object;)Z
  */
 JNIEXPORT jboolean JNICALL Java_com_halzhang_android_example_jniexample_JNIEngine_init
-  (JNIEnv *, jobject, jobject);
+        (JNIEnv *, jobject, jobject);
+
+/*
+ * Class:     com_halzhang_android_example_jniexample_JNIEngine
+ * Method:    testLocalRef
+ * Signature: ()Z
+ */
+JNIEXPORT jboolean JNICALL
+        Java_com_halzhang_android_example_jniexample_JNIEngine_testLocalRef(JNIEnv *, jobject);
+
+/*
+ * Class:     com_halzhang_android_example_jniexample_JNIEngine
+ * Method:    getData
+ * Signature: ()Ljava/land/Object;
+ */
+JNIEXPORT jobject JNICALL
+        Java_com_halzhang_android_example_jniexample_JNIEngine_getData(JNIEnv *, jobject);
+
+/*
+ * Class:     com_halzhang_android_example_jniexample_JNIEngine
+ * Method:    createString
+ * Signature: ()Ljava/land/String;
+ */
+JNIEXPORT jstring JNICALL
+        Java_com_halzhang_android_example_jniexample_JNIEngine_createString(JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }
